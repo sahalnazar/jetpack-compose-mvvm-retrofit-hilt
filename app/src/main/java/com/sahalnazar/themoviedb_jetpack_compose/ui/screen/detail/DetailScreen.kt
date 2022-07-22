@@ -10,4 +10,6 @@ fun DetailScreen(
     viewModel: DetailScreenViewModel
 ) {
 
+
+
 }
