@@ -3,7 +3,7 @@ package com.sahalnazar.themoviedb_jetpack_compose.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sahalnazar.themoviedb_jetpack_compose.BuildConfig
 import com.sahalnazar.themoviedb_jetpack_compose.data.remote.AuthorizationInterceptor
-import com.sahalnazar.themoviedb_jetpack_compose.data.repository.ComposeTheMovieDbApis
+import com.sahalnazar.themoviedb_jetpack_compose.data.remote.ComposeTheMovieDbApis
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
