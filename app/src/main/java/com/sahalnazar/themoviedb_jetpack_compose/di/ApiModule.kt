@@ -65,7 +65,6 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideApiService(
-        @Named("provideRetrofit")
         retrofit: Retrofit
     ): ComposeTheMovieDbApis {
         return retrofit.create(ComposeTheMovieDbApis::class.java)

@@ -38,23 +38,15 @@ fun NavigationHost(navController: NavHostController) {
     ) {
 
         composable(
-            route = ComposeTheMovieDbScreens.ListingScreen.route
-                    + "/{$LISTING_SCREEN_ARGS}",
-            arguments = listOf(
-                navArgument(LISTING_SCREEN_ARGS) {
-                    type = NavType.StringType
-                }
-            ),
+            route = ComposeTheMovieDbScreens.ListingScreen.route,
             exitTransition = {
                 fadeOut()
             },
             enterTransition = {
                 fadeIn()
             }) { backStackEntry ->
-
             ListingScreen(
                 navController = navController,
-                args = backStackEntry.arguments?.getString(LISTING_SCREEN_ARGS) ?: DEF_LISTING_SCREEN_ARGS,
                 viewModel = hiltViewModel()
             )
         }
