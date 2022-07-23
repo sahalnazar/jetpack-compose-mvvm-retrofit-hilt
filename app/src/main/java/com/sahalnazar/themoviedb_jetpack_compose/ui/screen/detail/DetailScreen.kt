@@ -12,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.sahalnazar.themoviedb_jetpack_compose.BuildConfig
+import com.sahalnazar.themoviedb_jetpack_compose.R
 
 @Composable
 fun DetailScreen(
@@ -37,7 +39,14 @@ fun DetailScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = uiState.movieName, style = MaterialTheme.typography.h6) }
+                title = { Text(text = uiState.movieName, style = MaterialTheme.typography.h6) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_arrow_back), contentDescription = "navigate back"
+                        )
+                    }
+                }
             )
         }, bottomBar = {
             Spacer(modifier = Modifier.windowInsetsBottomHeight(insets = WindowInsets.navigationBars))
