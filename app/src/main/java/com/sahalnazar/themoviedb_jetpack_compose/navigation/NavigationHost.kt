@@ -1,11 +1,9 @@
 package com.sahalnazar.themoviedb_jetpack_compose.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -25,26 +23,44 @@ sealed class ComposeTheMovieDbScreens(
 const val DETAIL_SCREEN_ARGS = "DETAIL_SCREEN_ARGS"
 const val DEF_DETAIL_SCREEN_ARGS = "DEF_DETAIL_SCREEN_ARGS"
 
-const val LISTING_SCREEN_ARGS = "LISTING_SCREEN_ARGS"
-const val DEF_LISTING_SCREEN_ARGS = "DEF_LISTING_SCREEN_ARGS"
-
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavigationHost(navController: NavHostController) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = ComposeTheMovieDbScreens.ListingScreen.route
+        startDestination = ComposeTheMovieDbScreens.ListingScreen.route,
+        enterTransition = {
+            fadeIn()
+        },
+        exitTransition = {
+            fadeOut()
+        },
+        popExitTransition = {
+            fadeOut()
+        },
+        popEnterTransition = {
+            fadeIn()
+        }
     ) {
+
 
         composable(
             route = ComposeTheMovieDbScreens.ListingScreen.route,
-            exitTransition = {
-                fadeOut()
-            },
             enterTransition = {
-                fadeIn()
-            }) { backStackEntry ->
+                slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(700))
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(700))
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(700))
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(700))
+            }
+
+            ) { backStackEntry ->
             ListingScreen(
                 navController = navController,
                 viewModel = hiltViewModel()
@@ -59,12 +75,8 @@ fun NavigationHost(navController: NavHostController) {
                     type = NavType.StringType
                 }
             ),
-            exitTransition = {
-                fadeOut()
-            },
-            enterTransition = {
-                fadeIn()
-            }) { backStackEntry ->
+
+        ) { backStackEntry ->
 
             DetailScreen(
                 navController = navController,

@@ -12,7 +12,7 @@ interface ComposeTheMovieDbApis {
     @GET("discover/movie")
     suspend fun fetchMovieList(
         @Query("language") language: String = "en-US",
-        @Query("sort_by") sort_by: String = "popularity.asc",
+        @Query("sort_by") sort_by: String = "popularity.desc",
         @Query("page") page: String,
     ): Response<MovieListResponse>
 

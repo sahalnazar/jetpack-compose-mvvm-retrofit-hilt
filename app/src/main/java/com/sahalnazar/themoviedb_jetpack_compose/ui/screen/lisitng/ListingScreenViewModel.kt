@@ -1,6 +1,5 @@
 package com.sahalnazar.themoviedb_jetpack_compose.ui.screen.lisitng
 
-import androidx.compose.material.SnackbarData
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,22 +25,37 @@ class ListingScreenViewModel @Inject constructor(
     private val repository: ComposeTheMovieDbRepository
 ) : ViewModel() {
 
-    var uiStates by mutableStateOf(ListingScreenUiState())
+    var uiState by mutableStateOf(ListingScreenUiState())
+        private set
 
-    init {
-        fetchMoviesList()
-    }
-
-    private fun fetchMoviesList() = viewModelScope.launch {
-        uiStates = uiStates.copy(movieListResponseLoading = true)
-
-        when (val response = repository.fetchMovieList(page = "1")) {
+    fun fetchMoviesList() = viewModelScope.launch {
+        uiState = uiState.copy(movieListResponseLoading = true)
+        val page = uiState.movieListResponseData?.page?.let { (it + 1).toString() } ?: "1"
+        when (val response = repository.fetchMovieList(page = page)) {
             is ResultWrapper.Success -> {
-                uiStates = uiStates.copy(movieListResponseData = response.data)
+                if (uiState.movieListResponseData == null) {
+                    uiState = uiState.copy(movieListResponseData = response.data, movieListResponseLoading = false)
+                } else {
+                    val existingList = uiState.movieListResponseData?.results.orEmpty()
+                    val responseList = response.data?.results.orEmpty()
+                    val appendedList = existingList.plus(responseList)
+                    uiState = uiState.copy(
+                        movieListResponseData = MovieListResponse(
+                            page = response.data?.page,
+                            results = appendedList,
+                            totalPages = response.data?.totalPages,
+                            totalResults = response.data?.totalResults
+                        ), movieListResponseLoading = false
+                    )
+                }
             }
             is ResultWrapper.Failure -> {
-                uiStates = uiStates.copy(movieListResponseError = response.message)
+                uiState = uiState.copy(movieListResponseError = response.message, movieListResponseLoading = false)
             }
         }
+    }
+
+    fun hasNextPage(): Boolean {
+        return (uiState.movieListResponseData?.page ?: 0) < (uiState.movieListResponseData?.totalPages ?: 0)
     }
 }

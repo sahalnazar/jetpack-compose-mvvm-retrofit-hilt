@@ -32,7 +32,7 @@ data class MovieListResponse(
         @SerialName("overview")
         val overview: String? = null,
         @SerialName("popularity")
-        val popularity: Int? = null,
+        val popularity: Double? = null,
         @SerialName("poster_path")
         val posterPath: String? = null,
         @SerialName("release_date")
@@ -42,7 +42,7 @@ data class MovieListResponse(
         @SerialName("video")
         val video: Boolean? = null,
         @SerialName("vote_average")
-        val voteAverage: Int? = null,
+        val voteAverage: Double? = null,
         @SerialName("vote_count")
         val voteCount: Int? = null
     )

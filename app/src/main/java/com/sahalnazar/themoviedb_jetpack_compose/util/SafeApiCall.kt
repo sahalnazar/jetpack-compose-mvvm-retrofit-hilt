@@ -1,5 +1,6 @@
 package com.sahalnazar.themoviedb_jetpack_compose.util
 
+import android.util.Log
 import retrofit2.Response
 import java.net.UnknownHostException
 
@@ -18,6 +19,7 @@ inline fun <reified T> safeApiCall(
     return try {
         val response = apiCall.invoke()
         responseCode = response.code()
+        Log.d("safeApiCall.response", "response: $response")
         when {
             response.isSuccessful -> {
                 if (response.body() == null) {
@@ -31,6 +33,7 @@ inline fun <reified T> safeApiCall(
             }
         }
     } catch (throwable: Exception) {
+        Log.e("safeApiCall", "throwable: $throwable")
         when (throwable) {
             is UnknownHostException -> ResultWrapper.Failure(ERROR_NO_INTERNET, null, 0)
             else -> ResultWrapper.Failure(ERROR_UNKNOWN, null, responseCode)
