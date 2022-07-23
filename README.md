@@ -2,4 +2,4 @@
 A simple android project that fetches movie list from themoviedb.org
 
 
-![screen](https://user-images.githubusercontent.com/22081856/180598943-e00961a6-c693-4b4b-8572-fb7928084bd5.gif)
+![screen](https://user-images.githubusercontent.com/22081856/180599137-32e72991-1eb5-45e5-8f01-bef4ac30eed1.gif)
